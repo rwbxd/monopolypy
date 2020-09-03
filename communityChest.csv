@@ -1,0 +1,17 @@
+"Advance to 'Go' (Collect $200)",player.position = 0;player.money += 200
+"Bank error in your favor (Collect $200)",player.money += 200
+"Doctor's fees (Pay $50)",player.money -= 50
+"From sale of stock you get $50",player.money += 50
+"Get Out of Jail Free",player.jailfree += 1
+"Go to Jail",jail(player)
+"Grand Opera Night (Collect $50 from every player)",collectfromall(player, 50)
+"Holiday Fund matures (Collect $100)",player.money += 100
+"Income tax refund (Collect $20)",player.money += 20
+"It is your birthday. (Collect $10 from every player),collectfromall(player, 10)
+"Life insurance matures (Collect $100)",player.money += 100
+"Hospital Fees (Pay $50)",player.money -= 50
+"School fees (Pay $50)",player.money -= 50
+"Recieve $25 consultancy fee",player.money += 25
+"You are assessed for street repairs (Pay $40 per house and $115 per hotel)",player.money -= ((40 * player.houses) + (115 * player.hotels))
+"You have won second prize in a beauty contest (Collect $10)",player.money += 10
+"You inherit $100",player.money += 100
