@@ -65,6 +65,7 @@ def advanceto(player, where):
             propertylist[player.position].rentForced(player)
 
 def rollDice():
+    print("Rolling dice...")
     global dice1, dice2, diceSum
     dice1, dice2 = randint(1,6), randint(1,6)
     print(f"You rolled a {dice1} and a {dice2}!")
@@ -75,7 +76,7 @@ def movePlayer(player, diceSum):
     if player.position >= 39:
         player.position -= 39
         player.money += 200
-    print(f"{player.name} lands on {propertylist[player.position].name}.")
+    print(f"You land on {propertylist[player.position].name}.")
     propertylist[player.position].land(player)
 
 def startGame():
@@ -89,12 +90,15 @@ def startGame():
     playing = True
 
 def endGame(player):
+    global playing
     print(f"{player.name} went bankrupt!")
+    playing = False
 
 startGame()
 while playing:
     for i in range(playercount):
         player = playerlist[playercount - 1]
+        print(f"\n{player.name}'s turn.\n")
         rollDice()
         movePlayer(player, diceSum)
         if playing == False:

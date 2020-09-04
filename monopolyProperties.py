@@ -48,12 +48,13 @@ class Property(boardSpace):
             pass
 
     def rent(self, player):
-        if player.money < self.rent:
-            print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
-        else:
+        if player.money > self.rent:
             print(f"{player.name} pays ${self.rent} to {self.owner.name}!")
             player.money -= rent
             self.owner.money += rent
+        else:
+            print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
+            endGame(player)
 
     def buy(self, player):
         return super().buy(player)
@@ -77,15 +78,23 @@ class Utility(boardSpace):
             pay = 10 * diceSum
         else:
             pay = 4 * diceSum
-        player.money -= pay
-        self.owner += pay
-        print(f"{player} pays {self.owner} ${pay} in rent!")
+        if player.money > pay:
+            player.money -= pay
+            self.owner += pay
+            print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
+        else:
+            print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
+            endGame(player)
 
     def rentForced(self, player):
         pay = 10 * diceSum
-        player.money -= pay
-        self.owner += pay
-        print(f"{player} pays {self.owner} ${pay} in rent!")
+        if player.money > pay:
+            player.money -= pay
+            self.owner += pay
+            print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
+        else:
+            print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
+            endGame(player)
 
     def buy(self, player):
         return super().buy(player)
@@ -112,9 +121,13 @@ class Railroad(boardSpace):
                 owned += 1
             check += 10
         pay = amount * owned
-        print(f"{player} pays {self.owner} ${pay} in rent!")
-        player.money -= pay
-        self.owner += pay
+        if player.money > pay:
+            print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
+            player.money -= pay
+            self.owner += pay
+        else:
+            print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
+            endGame(player)
 
     def buy(self, player):
         return super().buy(player)
@@ -136,8 +149,12 @@ class Tax(boardSpace):
         self.taxprice = int(taxprice)
 
     def land(self, player):
-        print(f"{player} pays ${self.taxprice}.")
-        player.money -= self.taxprice
+        if canPay(player, self.taxprice):
+            print(f"{player.name} pays ${self.taxprice}.")
+            player.money -= self.taxprice
+        else:
+            print(f"{player.name} doesn't have enough money to pay the tax!")
+            endGame(player)
 
 class Chance(boardSpace):
     def __init__(self, name, category):
