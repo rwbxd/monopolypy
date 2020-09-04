@@ -1,6 +1,5 @@
 from random import randint, choice
 from monopolyProperties import *
-from extraSpaces import *
 
 diceSum, dice1, dice2 = 0,0,0 #Using global variables to make my life easier
 #May change to pass into functions again
@@ -19,11 +18,11 @@ class Player:
 playerlist = []
 
 def jail(player):
-    if player.jailfree = 0:
+    if player.jailfree == 0:
         player.jailed = True
     else:
         player.jailfree -= 1
-    player.position = 9
+    player.position = 10
 
 def collectfromall(player, amount):
     for i in range(playercount):
@@ -44,6 +43,12 @@ def advanceto(player, where):
                 player.position = 15
             else:
                 player.position = 5
+
+        if propertylist[player.position].owner == None: #buy or pay
+            propertylist[player.position].buy(player)
+        else:
+            propertylist[player.position].rent(player, 50)
+
     elif where == "utility": #12, 28
         if player.position > 28: #move player
             player.money += 200
@@ -70,7 +75,7 @@ def determinePosition(player, diceSum):
     if player.position >= 39:
         player.position -= 39
         player.money += 200
-    print(f"{player} lands on {propertylist[player.position].name}.)
+    print(f"{player} lands on {propertylist[player.position].name}.")
 
 def determineType(player):
     currentProperty = propertylist[player.position]
@@ -124,5 +129,5 @@ startGame()
 while not any(x.money <= 0 for x in playerlist):
     print(*playerlist)
     for i in range(playercount):
-        rollDice(playerlist[i])
+        rollDice()
     playerlist[0].money = 0
