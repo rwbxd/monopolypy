@@ -1,5 +1,6 @@
 import csv
 import random
+from monopolyFunctions import *
 
 class boardSpace:
     def __init__(self, name, category):
@@ -48,10 +49,10 @@ class Property(boardSpace):
             pass
 
     def rent(self, player):
-        if player.money > self.rent:
+        if player.money > self.rentprice:
             print(f"{player.name} pays ${self.rentprice} to {self.owner.name}!")
-            player.money -= rentprice
-            self.owner.money += rentprice
+            player.money -= self.rentprice
+            self.owner.money += self.rentprice
         else:
             print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
             endGame(player)
@@ -177,9 +178,7 @@ class Gotojail(boardSpace):
 
     def land(self, player):
         print(f"{player.name} is sent to jail! {player.name} doesn't pass go, nor do they collect $200!")
-        jail(player)
-
-propertylist = []
+        goJail(player)
 
 def initProperties():
     with open("monopolyProperties.csv", "r") as f:
@@ -206,4 +205,5 @@ def initProperties():
             else:
                 propertylist.append(Property(row[0],row[1],row[2],row[3]))
 
+propertylist = []
 initProperties()

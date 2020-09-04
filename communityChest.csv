@@ -3,7 +3,7 @@
 "Doctor's fees (Pay $50)",player.money -= 50
 "From sale of stock you get $50",player.money += 50
 "Get Out of Jail Free",player.jailfree += 1
-"Go to Jail",jail(player)
+"Go to Jail","goJail(player)"
 "Grand Opera Night (Collect $50 from every player)",collectfromall(player, 50)
 "Holiday Fund matures (Collect $100)",player.money += 100
 "Income tax refund (Collect $20)",player.money += 20
