@@ -127,7 +127,5 @@ def startGame():
 
 startGame()
 while not any(x.money <= 0 for x in playerlist):
-    print(*playerlist)
     for i in range(playercount):
         rollDice()
-    playerlist[0].money = 0
