@@ -56,7 +56,7 @@ class Property(boardSpace):
 class Utility(boardSpace):
     def __init__(self, name, category, price):
         super().__init__(name, category)
-        self.price = price
+        self.price = int(price)
         self.owner = None
 
     def land(self,player):
@@ -102,7 +102,7 @@ class Utility(boardSpace):
 class Railroad(boardSpace):
     def __init__(self, name, category, price):
         super().__init__(name, category)
-        self.price = price
+        self.price = int(price)
         self.owner = None
 
     def land(self,player):
@@ -147,7 +147,7 @@ class CC(boardSpace):
         super().__init__(name, category)
 
     def land(self, player):
-        with open("C:/Users/Will/Desktop/Python/monopoly/communityChest.csv", "r") as f:
+        with open("communityChest.csv", "r") as f:
             reader = csv.reader(f)
             row = random.choice(list(reader))
             print(f"The card reads: {row[0]}")
@@ -167,7 +167,7 @@ class Chance(boardSpace):
         super().__init__(name, category)
 
     def land(self, player):
-        with open("C:/Users/Will/Desktop/Python/monopoly/chance.csv", "r") as f:
+        with open("chance.csv", "r") as f:
             reader = csv.reader(f)
             row = random.choice(list(reader))
             print(f"The card reads {row[0]}")

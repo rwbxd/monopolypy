@@ -70,62 +70,32 @@ def rollDice():
     print(f"You rolled a {dice1} and a {dice2}!")
     diceSum = dice1+dice2
 
-def determinePosition(player, diceSum):
+def movePlayer(player, diceSum):
     player.position += diceSum
     if player.position >= 39:
         player.position -= 39
         player.money += 200
-    print(f"{player} lands on {propertylist[player.position].name}.")
-
-def determineType(player):
-    currentProperty = propertylist[player.position]
-    if currentProperty.category in ["CC", "tax", "chance", "corner", "gotojail"]:
-        #do custom stuff
-        pass
-    else:
-        determineOwner(player)
-
-def determineOwner(player):
-    currentProperty = propertylist[player.position]
-    if currentProperty.owner == player:
-        pass
-    elif currentProperty.owner == None:
-        buyProperty(currentProperty, player)
-    else:
-        payRent(currentProperty, player)
-
-def buyProperty(property, player):
-    if player.money < property.price:
-        print("You don't have enough money to buy this property!")
-    else:
-        print(f"Do you want to buy {property.name}?")
-        print(f"It costs {property.price}, and you have {player.money}.\n")
-        response = input()
-        if response in ["Y", "y"]:
-            property.owner = player
-            player.money -= property.price
-            player.ownedProperties.append(property)
-
-def payRent(property, player):
-    owner = property.owner
-    rent = property.rent
-    if player.money < property.rent:
-        print(f"{player.name} doesn't have enough money to pay rent to {owner.name}!")
-    else:
-        print(f"{player.name} pays ${rent} to {owner.name}!")
-        player.money -= rent
-        owner.money += rent
+    print(f"{player.name} lands on {propertylist[player.position].name}.")
+    propertylist[player.position].land(player)
 
 def startGame():
     print("Welcome to scuffed Monopoly!")
-    global playercount
+    global playercount, playing
     playercount = int(input("How many people are playing? (2-4)"))
     for i in range(int(playercount)):
         name = input(f"Player {i+1}'s name? > ")
         name = Player(name)
         playerlist.append(name)
+    playing = True
+
+def endGame(player):
+    print(f"{player.name} went bankrupt!")
 
 startGame()
-while not any(x.money <= 0 for x in playerlist):
+while playing:
     for i in range(playercount):
+        player = playerlist[playercount - 1]
         rollDice()
+        movePlayer(player, diceSum)
+        if playing == False:
+            break
