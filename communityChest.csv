@@ -1,4 +1,4 @@
-"Advance to 'Go' (Collect $200)",player.position = 0;player.money += 200
+"Advance to 'Go' (Collect $200)",player.position = 0,player.money += 200
 "Bank error in your favor (Collect $200)",player.money += 200
 "Doctor's fees (Pay $50)",player.money -= 50
 "From sale of stock you get $50",player.money += 50

@@ -10,14 +10,14 @@ class boardSpace:
             print("You don't have enough money to buy this property!")
         else:
             print(f"Do you want to buy {self.name}?")
-            print(f"It costs {self.price}, and you have {player.money}.")
+            print(f"It costs ${self.price}, and you have ${player.money}.")
             while True:
                 response = input("y/n? > ")
-                if response in ["Y", "y", "yes", "Yes", "n", "N", "no", "No"]:
+                if response in ["y","n"]:
                     break
                 else:
                     print("Invalid input!")
-            if response in ["Y", "y", "yes", "Yes"]:
+            if response == "y":
                 self.owner = player
                 player.money -= self.price
                 player.ownedProperties.append(self)
@@ -36,7 +36,7 @@ class Property(boardSpace):
     def __init__(self, name, category, price, rent):
         super().__init__(name, category)
         self.price = int(price)
-        self.rent = int(rent)
+        self.rentprice = int(rent)
         self.owner = None
 
     def land(self, player):
@@ -49,9 +49,9 @@ class Property(boardSpace):
 
     def rent(self, player):
         if player.money > self.rent:
-            print(f"{player.name} pays ${self.rent} to {self.owner.name}!")
-            player.money -= rent
-            self.owner.money += rent
+            print(f"{player.name} pays ${self.rentprice} to {self.owner.name}!")
+            player.money -= rentprice
+            self.owner.money += rentprice
         else:
             print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
             endGame(player)
@@ -80,7 +80,7 @@ class Utility(boardSpace):
             pay = 4 * diceSum
         if player.money > pay:
             player.money -= pay
-            self.owner += pay
+            self.owner.money += pay
             print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
         else:
             print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
@@ -90,7 +90,7 @@ class Utility(boardSpace):
         pay = 10 * diceSum
         if player.money > pay:
             player.money -= pay
-            self.owner += pay
+            self.owner.money += pay
             print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
         else:
             print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
@@ -124,7 +124,7 @@ class Railroad(boardSpace):
         if player.money > pay:
             print(f"{player.name} pays {self.owner.name} ${pay} in rent!")
             player.money -= pay
-            self.owner += pay
+            self.owner.money += pay
         else:
             print(f"{player.name} doesn't have enough money to pay rent to {self.owner.name}!")
             endGame(player)
@@ -140,8 +140,10 @@ class CC(boardSpace):
         with open("communityChest.csv", "r") as f:
             reader = csv.reader(f)
             row = random.choice(list(reader))
-            print(f"The card reads: {row[0]}")
+            print(f"The card reads: \"{row[0]}\"")
             exec(row[1])
+            if len(row) == 3:
+                exec(row[2])
 
 class Tax(boardSpace):
     def __init__(self, name, category, taxprice):
@@ -149,7 +151,7 @@ class Tax(boardSpace):
         self.taxprice = int(taxprice)
 
     def land(self, player):
-        if canPay(player, self.taxprice):
+        if player.money > self.taxprice:
             print(f"{player.name} pays ${self.taxprice}.")
             player.money -= self.taxprice
         else:
@@ -164,15 +166,17 @@ class Chance(boardSpace):
         with open("chance.csv", "r") as f:
             reader = csv.reader(f)
             row = random.choice(list(reader))
-            print(f"The card reads {row[0]}")
+            print(f"The card reads: \"{row[0]}\"")
             exec(row[1])
+            if len(row) == 3:
+                exec(row[2])
 
 class Gotojail(boardSpace):
     def __init__(self, name, category):
         super().__init__(name, category)
 
     def land(self, player):
-        print(f"{player} is sent to jail! {player} doesn't pass go, nor do they collect $200!")
+        print(f"{player.name} is sent to jail! {player.name} doesn't pass go, nor do they collect $200!")
         jail(player)
 
 propertylist = []

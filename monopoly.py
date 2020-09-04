@@ -1,28 +1,35 @@
 from random import randint, choice
 from monopolyProperties import *
 
-diceSum, dice1, dice2 = 0,0,0 #Using global variables to make my life easier
-#May change to pass into functions again
-
 class Player:
     def __init__(self, name):
         self.name = name
         self.money = 1500 #Starting money $1500
         self.position = 0 #Board position
         self.ownedProperties = [] #array of their owned properties, unsure what this is for
-        self.jailed = False #
+        self.jailed = 0 #How many turns player has left in jail
         self.jailfree = 0 #Get out of jail free cards
         self.houses = 0
         self.hotels = 0
+        self.doubles = 0 #How many doubles in a row they have
 
 playerlist = []
 
 def jail(player):
     if player.jailfree == 0:
-        player.jailed = True
+        player.jailed = 3
     else:
         player.jailfree -= 1
     player.position = 10
+
+def payJail(player):
+    if player.money < 50:
+        print("You don't have enough money to pay to get out of Jail!")
+        return False
+    else:
+        print("You paid $50 to get out of jail.")
+        player.money -= 50
+        return True
 
 def collectfromall(player, amount):
     for i in range(playercount):
@@ -72,6 +79,7 @@ def rollDice():
     diceSum = dice1+dice2
 
 def movePlayer(player, diceSum):
+    print(f"You move {diceSum} spaces.")
     player.position += diceSum
     if player.position >= 39:
         player.position -= 39
@@ -89,6 +97,60 @@ def startGame():
         playerlist.append(name)
     playing = True
 
+def turnOptions(player):
+    print("What would you like to do?")
+    print("Options: Roll (r), View Assets (v)")
+    while True:
+        response = input("> ")
+        if response in ["r", "v"]:
+            if response == "r":
+                break
+            elif response == "v":
+                print(f"Current balance: ${player.money}")
+                print("Owned properties: ", end=" ")
+                for property in player.ownedProperties:
+                    print(f"{property.name}", end=", ")
+                print("\n")
+                turnOptions(player)
+                break
+        else:
+            print("Invalid input!")
+
+def jailedOptions(player):
+    print("What would you like to do?")
+    print("Options: Roll (r), View Assets (v), Pay $50 to get out of Jail (p)")
+    while True:
+        response = input("r/v/p? > ")
+        if response in ["r", "v", "p"]:
+            if response == "r":
+                rollDice()
+                if dice1 == dice2:
+                    print("You rolled doubles, you get out of jail!")
+                    player.jailed = 0
+                    movePlayer(player, diceSum)
+                else:
+                    print("You didn't roll doubles.")
+                    if player.jailed == 1:
+                        print("Since you didn't roll doubles on your 3rd turn",
+                        "in jail, you have to pay $50 to get out.")
+                        if payJail(player):
+                            moveplayer(player, diceSum)
+                    else:
+                        print("You remain in jail.")
+            elif response == "v":
+                print(f"Current balance: {player.money}")
+                print("Owned properties: ", end=" ")
+                for property in player.ownedProperties:
+                    print(f"{property.name}", end=", ")
+                jailedOptions(player)
+            elif response == "p":
+                if payJail(player):
+                    rollDice()
+                    movePlayer()
+                else:
+                    print("You remain in jail.")
+
+
 def endGame(player):
     global playing
     print(f"{player.name} went bankrupt!")
@@ -97,9 +159,15 @@ def endGame(player):
 startGame()
 while playing:
     for i in range(playercount):
-        player = playerlist[playercount - 1]
+        player = playerlist[i]
         print(f"\n{player.name}'s turn.\n")
-        rollDice()
-        movePlayer(player, diceSum)
+
+        if player.jailed == 0:
+            turnOptions(player)
+            rollDice()
+            movePlayer(player, diceSum)
+        else:
+            jailedOptions()
+
         if playing == False:
             break
