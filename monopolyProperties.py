@@ -5,6 +5,25 @@ class boardSpace:
     def __init__(self, name, category):
         self.name = name
         self.category = category
+    def buy(self, player):
+        if player.money < self.price:
+            print("You don't have enough money to buy this property!")
+        else:
+            print(f"Do you want to buy {self.name}?")
+            print(f"It costs {self.price}, and you have {player.money}.")
+            while True:
+                response = input("y/n? > ")
+                if response in ["Y", "y", "yes", "Yes", "n", "N", "no", "No"]:
+                    break
+                else:
+                    print("Invalid input!")
+            if response in ["Y", "y", "yes", "Yes"]:
+                self.owner = player
+                player.money -= self.price
+                player.ownedProperties.append(self)
+                print(f"{player.name} bought {self.name} for ${self.price}!")
+            else:
+                print(f"{player.name} did not buy {self.name}.")
 
 class Corner(boardSpace):
     def __init__(self,name,category):
@@ -37,21 +56,7 @@ class Property(boardSpace):
             self.owner.money += rent
 
     def buy(self, player):
-        if player.money < self.price:
-            print("You don't have enough money to buy this property!")
-        else:
-            print(f"Do you want to buy {self.name}?")
-            print(f"It costs {self.price}, and you have {player.money}.")
-            while True:
-                response = input("y/n? > ")
-                if response in ["Y", "y", "yes", "Yes", "n", "N", "no", "No"]:
-                    break
-                else:
-                    print("Invalid input!")
-            if response in ["Y", "y", "yes", "Yes"]:
-                self.owner = player
-                player.money -= self.price
-                player.ownedProperties.append(self)
+        return super().buy(player)
 
 class Utility(boardSpace):
     def __init__(self, name, category, price):
@@ -83,21 +88,7 @@ class Utility(boardSpace):
         print(f"{player} pays {self.owner} ${pay} in rent!")
 
     def buy(self, player):
-        if player.money < self.price:
-            print("You don't have enough money to buy this property!")
-        else:
-            print(f"Do you want to buy {self.name}?")
-            print(f"It costs {self.price}, and you have {player.money}.")
-            while True:
-                response = input("y/n? > ")
-                if response in ["Y", "y", "yes", "Yes", "n", "N", "no", "No"]:
-                    break
-                else:
-                    print("Invalid input!")
-            if response in ["Y", "y", "yes", "Yes"]:
-                self.owner = player
-                player.money -= self.price
-                player.ownedProperties.append(self)
+        return super().buy(player)
 
 class Railroad(boardSpace):
     def __init__(self, name, category, price):
@@ -126,21 +117,7 @@ class Railroad(boardSpace):
         self.owner += pay
 
     def buy(self, player):
-        if player.money < self.price:
-            print("You don't have enough money to buy this property!")
-        else:
-            print(f"Do you want to buy {self.name}?")
-            print(f"It costs {self.price}, and you have {player.money}.")
-            while True:
-                response = input("y/n? > ")
-                if response in ["Y", "y", "yes", "Yes", "n", "N", "no", "No"]:
-                    break
-                else:
-                    print("Invalid input!")
-            if response in ["Y", "y", "yes", "Yes"]:
-                self.owner = player
-                player.money -= self.price
-                player.ownedProperties.append(self)
+        return super().buy(player)
 
 class CC(boardSpace):
     def __init__(self, name, category):
@@ -159,8 +136,8 @@ class Tax(boardSpace):
         self.taxprice = int(taxprice)
 
     def land(self, player):
-        print(f"{player} pays ${taxprice}.")
-        player.money -= taxprice
+        print(f"{player} pays ${self.taxprice}.")
+        player.money -= self.taxprice
 
 class Chance(boardSpace):
     def __init__(self, name, category):
