@@ -183,26 +183,29 @@ class Gotojail(boardSpace):
 
 propertylist = []
 
-with open("monopolyProperties.csv", "r") as f:
-    reader = csv.reader(f)
-    next(reader)
-    for row in reader: #boardSpace with row[0] row[1], add to boardlist, for i in boardlist,
-        if row[1] in ["CC", "tax", "chance", "corner", "gotojail", "utility", "railroad"]:
-            #propertylist.append(exec(row[1](row[0],row[1])))
-            #Above snippet doesn't work AFAIK, but it'd eliminate a lot of code
-            if row[1] == "CC":
-                propertylist.append(CC(row[0],row[1]))
-            elif row[1] == "tax":
-                propertylist.append(Tax(row[0],row[1],row[3]))
-            elif row[1] == "chance":
-                propertylist.append(Chance(row[0],row[1]))
-            elif row[1] == "corner":
-                propertylist.append(Corner(row[0],row[1]))
-            elif row[1] == "gotojail":
-                propertylist.append(Gotojail(row[0],row[1]))
-            elif row[1] == "utility":
-                propertylist.append(Utility(row[0],row[1],row[2]))
-            elif row[1] == "railroad":
-                propertylist.append(Railroad(row[0],row[1],row[2]))
-        else:
-            propertylist.append(Property(row[0],row[1],row[2],row[3]))
+def initProperties():
+    with open("monopolyProperties.csv", "r") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader: #boardSpace with row[0] row[1], add to boardlist, for i in boardlist,
+            if row[1] in ["CC", "tax", "chance", "corner", "gotojail", "utility", "railroad"]:
+                #propertylist.append(exec(row[1](row[0],row[1])))
+                #Above snippet doesn't work AFAIK, but it'd eliminate a lot of code
+                if row[1] == "CC":
+                    propertylist.append(CC(row[0],row[1]))
+                elif row[1] == "tax":
+                    propertylist.append(Tax(row[0],row[1],row[3]))
+                elif row[1] == "chance":
+                    propertylist.append(Chance(row[0],row[1]))
+                elif row[1] == "corner":
+                    propertylist.append(Corner(row[0],row[1]))
+                elif row[1] == "gotojail":
+                    propertylist.append(Gotojail(row[0],row[1]))
+                elif row[1] == "utility":
+                    propertylist.append(Utility(row[0],row[1],row[2]))
+                elif row[1] == "railroad":
+                    propertylist.append(Railroad(row[0],row[1],row[2]))
+            else:
+                propertylist.append(Property(row[0],row[1],row[2],row[3]))
+
+initProperties()
