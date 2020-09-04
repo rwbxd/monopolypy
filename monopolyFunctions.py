@@ -1,3 +1,4 @@
+from settings import *
 global propertylist, playerlist, playercount
 
 def goJail(player):

@@ -13,9 +13,6 @@ class Player:
         self.hotels = 0
         self.doubles = 0 #How many doubles in a row they have
 
-global playercount, diceSum, playerlist, propertylist
-playerlist = []
-
 def payJail(player):
     if player.money < 50:
         print("You don't have enough money to pay to get out of Jail!")

@@ -207,6 +207,4 @@ def initProperties():
             else:
                 propertylist.append(Property(row[0],row[1],row[2],row[3]))
 
-global propertylist
-propertylist = []
 initProperties()
