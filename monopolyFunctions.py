@@ -1,9 +1,18 @@
-def goJail(player): #This doesn't belong :(
+global propertylist, playerlist, playercount
+
+def goJail(player):
     if player.jailfree == 0:
         player.jailed = 3
     else:
         player.jailfree -= 1
+        print(f"{player.name} uses a \"Get out of Jail Free\" card!")
     player.position = 10
+
+def advancetoutility(player):
+    advanceto(player, "utility")
+
+def advancetorailroad(player):
+    advanceto(player, "railroad")
 
 def advanceto(player, where):
     if where == "railroad": #5, 15, 25, 35
@@ -40,7 +49,18 @@ def advanceto(player, where):
             rollDice()
             propertylist[player.position].rentForced(player)
 
+def collect50fromall(player):
+    collectfromall(player,50)
+
+def collect10fromall(player):
+    collectfromall(player,10)
+
+def pay50toall(player):
+    collectfromall(player,-50)
+
 def collectfromall(player, amount):
     for i in range(playercount):
         playerlist[i].money -= amount
     player.money += (amount * playercount)
+
+#Variables - Here because I can't figure out how to get them to work right elsewhere

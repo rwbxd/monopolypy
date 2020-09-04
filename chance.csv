@@ -1,16 +1,16 @@
 "Advance to 'Go' (Collect $200)",player.money += 200,player.position=0
 "Advance to Illinois Ave.",if player.position > 24: player.money += 200,player.position = 24
 "Advance to St. Charles Place Ave.",if player.position > 11: player.money += 200,player.position = 11
-"Advance to nearest Utility","advanceto(player, 'utility')"
-"Advance to nearest Railroad","advanceto(player, 'railroad')"
+"Advance to nearest Utility",advancetoutility(player)
+"Advance to nearest Railroad",advancetorailroad(player)
 "Bank pays you dividend of $50",player.money += 50
 "Get out of Jail Free",player.jailfree += 1
 "Go back Three Spaces",player.position -= 3
-"Go to Jail.","goJail(player)"
+"Go to Jail.",goJail(player)
 "Make general repairs on all your property (Pay $25 per house and $100 per hotel)",player.money -= ((25 * player.houses) + (100 * player.hotels))
 "Pay poor tax of $15",player.money -= 15
 "Take a trip to Reading Railroad (Advance to Reading Railroad)",if player.position > 5: player.money += 200,player.position = 5
 "Take a walk on the Boardwalk (Advance to Boardwalk)",player.position = 39
-"You have been elected Chairman of the Board (Pay each player $50)",collectfromall(player, -50)
+"You have been elected Chairman of the Board (Pay each player $50)",pay50toall(player)
 "Your building loan matures (Recieve $150)",player.money += 150
 "You have won a crossword competition (Collect $100)",player.money += 100

@@ -2,6 +2,8 @@ import csv
 import random
 from monopolyFunctions import *
 
+global diceSum
+
 class boardSpace:
     def __init__(self, name, category):
         self.name = name
@@ -117,7 +119,7 @@ class Railroad(boardSpace):
     def rent(self, player, amount): #I do this for the chance card that doubles rent payout
         check = 5
         owned = 0
-        while check < 35:
+        while check <= 35:
             if propertylist[check].owner == self.owner:
                 owned += 1
             check += 10
@@ -205,5 +207,6 @@ def initProperties():
             else:
                 propertylist.append(Property(row[0],row[1],row[2],row[3]))
 
+global propertylist
 propertylist = []
 initProperties()

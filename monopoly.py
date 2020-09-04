@@ -13,6 +13,7 @@ class Player:
         self.hotels = 0
         self.doubles = 0 #How many doubles in a row they have
 
+global playercount, diceSum, playerlist, propertylist
 playerlist = []
 
 def payJail(player):
@@ -91,15 +92,20 @@ def jailedOptions(player):
                     print("You rolled doubles, you get out of jail!")
                     player.jailed = 0
                     movePlayer(player, diceSum)
+                    break
                 else:
                     print("You didn't roll doubles.")
                     if player.jailed == 1:
                         print("Since you didn't roll doubles on your 3rd turn",
                         "in jail, you have to pay $50 to get out.")
                         if payJail(player):
-                            moveplayer(player, diceSum)
+                            player.jailed = 0
+                            movePlayer(player, diceSum)
+                            break
                     else:
+                        player.jailed -= 1
                         print("You remain in jail.")
+                        break
             elif response == "v":
                 print(f"Current balance: {player.money}")
                 print("Owned properties: ", end=" ")
@@ -108,8 +114,10 @@ def jailedOptions(player):
                 jailedOptions(player)
             elif response == "p":
                 if payJail(player):
+                    player.jailed = 0
                     rollDice()
-                    movePlayer()
+                    movePlayer(player, diceSum)
+                    break
                 else:
                     print("You remain in jail.")
 
@@ -118,6 +126,7 @@ def endGame(player):
     global playing
     print(f"{player.name} went bankrupt!")
     playing = False
+    input()
 
 startGame()
 while playing:
