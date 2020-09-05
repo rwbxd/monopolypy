@@ -10,9 +10,9 @@ class boardSpace:
         self.category = category
     def buy(self, player):
         if player.money < self.price:
-            print("You don't have enough money to buy this property!")
+            print("\nYou don't have enough money to buy this property!")
         else:
-            print(f"Do you want to buy {self.name}?")
+            print(f"\nDo you want to buy {self.name}?")
             print(f"It costs ${self.price}, and you have ${player.money}.")
             while True:
                 response = input("y/n? > ")
@@ -24,9 +24,9 @@ class boardSpace:
                 self.owner = player
                 player.money -= self.price
                 player.ownedProperties.append(self)
-                print(f"{player.name} bought {self.name} for ${self.price}!")
+                print(f"\n{player.name} bought {self.name} for ${self.price}!")
             else:
-                print(f"{player.name} did not buy {self.name}.")
+                print(f"\n{player.name} did not buy {self.name}.")
 
 class Corner(boardSpace):
     def __init__(self,name,category):
@@ -48,7 +48,7 @@ class Property(boardSpace):
         elif self.owner != player:
             self.rent(player)
         else:
-            pass
+            print(f"You already own {self.name}!")
 
     def rent(self, player):
         if player.money > self.rentprice:
@@ -74,7 +74,7 @@ class Utility(boardSpace):
         elif self.owner != player:
             self.rent(player)
         else:
-            pass
+            print(f"You already own {self.name}!")
 
     def rent(self, player):
         if propertylist[12].owner == propertylist[28].owner:
@@ -114,7 +114,8 @@ class Railroad(boardSpace):
         elif self.owner != player:
             self.rent(player, 25)
         else:
-            pass
+            print(f"You already own {self.name}!")
+
 
     def rent(self, player, amount): #I do this for the chance card that doubles rent payout
         check = 5
@@ -155,7 +156,7 @@ class Tax(boardSpace):
 
     def land(self, player):
         if player.money > self.taxprice:
-            print(f"{player.name} pays ${self.taxprice}.")
+            print(f"You pay ${self.taxprice}.")
             player.money -= self.taxprice
         else:
             print(f"{player.name} doesn't have enough money to pay the tax!")

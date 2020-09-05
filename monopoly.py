@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import randint
 from monopolyProperties import *
 
 class Player:
@@ -7,6 +7,7 @@ class Player:
         self.money = 1500 #Starting money $1500
         self.position = 0 #Board position
         self.ownedProperties = [] #array of their owned properties, unsure what this is for
+        self.propertyGroups = []
         self.jailed = 0 #How many turns player has left in jail
         self.jailfree = 0 #Get out of jail free cards
         self.houses = 0
@@ -28,6 +29,16 @@ def rollDice():
     dice1, dice2 = randint(1,6), randint(1,6)
     print(f"You rolled a {dice1} and a {dice2}!")
     diceSum = dice1+dice2
+
+def checkDoubles(player):
+    if dice1 == dice2:
+        player.doubles += 1
+        if player.doubles == 3:
+            print("Since you rolled doubles three consecutive times, you get sent to jail!")
+            goJail(player)
+            return "jail"
+    else:
+        player.doubles = 0
 
 def movePlayer(player, diceSum):
     print(f"You move {diceSum} spaces.")
@@ -60,7 +71,11 @@ def startGame():
 
 def turnOptions(player):
     print("What would you like to do?")
-    print("Options: Roll (r), View Assets (v)")
+    print("Options: Roll (r), View Assets (v)", end=" ")
+    #if canHouse(player):
+        #print("Build Houses/Hotels (b)")
+    #else:
+    print("")
     while True:
         response = input("> ")
         if response in ["r", "v"]:
@@ -133,7 +148,10 @@ while playing:
 
         if player.jailed == 0:
             turnOptions(player)
+            print("")
             rollDice()
+            if checkDoubles(player) == "jail":
+                break
             movePlayer(player, diceSum)
         else:
             jailedOptions(player)
