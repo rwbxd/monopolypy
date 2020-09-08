@@ -72,6 +72,8 @@ class Property(boardSpace):
             if self.owner != propertylist[i].owner:
                 return False
         player.propertyGroups.append(self.category)
+        for i in categorylist:
+            propertylist[i].rentprice *= 2
 
 class Utility(boardSpace):
     def __init__(self, name, category, price):
