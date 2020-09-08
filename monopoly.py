@@ -84,8 +84,8 @@ def turnOptions(player):
                 return
             elif response == "b": #Build Houses/Hotels
                 #buildHouses(player) #Not made yet
-                print("Not implemented yet! How did you even access this?")
-                turnOptions()
+                print("Not implemented yet! Sorry!")
+                turnOptions(player)
         else:
             print("Invalid input!")
 
