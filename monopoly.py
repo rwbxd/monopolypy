@@ -58,7 +58,7 @@ def turnOptions(player):
     print("")
 
     while True: #Loop to get the input from the player
-        response = input("> ")
+        response = input("> ").lower()
         if response in inputOptions:
             if response == "r": #Roll
                 return "roll" #go to rolling and moving

@@ -16,7 +16,7 @@ class boardSpace:
             print(f"\nDo you want to buy {self.name}?")
             print(f"It costs ${self.price}, and you have ${player.money}.")
             while True:
-                response = input("y/n? > ")
+                response = input("y/n? > ").lower()
                 if response in ["y","n"]:
                     break
                 else:
