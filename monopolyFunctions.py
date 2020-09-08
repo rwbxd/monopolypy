@@ -65,3 +65,12 @@ def collectfromall(player, amount):
     player.money += (amount * playercount)
 
 #Variables - Here because I can't figure out how to get them to work right elsewhere
+#Property Variables - Property groups and their board positions
+brown = [1,3]
+light_blue = [6,8,9]
+pink = [11,13,14]
+orange = [16,18,19]
+red = [21,23,24]
+yellow = [26,27,29]
+green = [33,34,36]
+blue = [37,39]

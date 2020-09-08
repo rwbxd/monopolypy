@@ -5,10 +5,10 @@ Community Chest,CC,NA,NA,
 Baltic Avenue,brown,60,4,20,60,180,320,450
 Income Tax,tax,NA,200,
 Reading Railroad,railroad,200,NA,
-Oriental Avenue,light blue,100,6,30,90,270,400,550
+Oriental Avenue,light_blue,100,6,30,90,270,400,550
 Chance,chance,NA,NA,
-Vermont Avenue,light blue,100,6,30,90,270,400,550
-Connecticut Avenue,light blue,120,8,40,100,300,450,600
+Vermont Avenue,light_blue,100,6,30,90,270,400,550
+Connecticut Avenue,light_blue,120,8,40,100,300,450,600
 Jail,corner,NA,NA,
 St. Charles Place,pink,140,10,50,150,450,625,750
 Electric Company,utility,150,NA,

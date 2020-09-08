@@ -11,6 +11,7 @@ class boardSpace:
     def buy(self, player):
         if player.money < self.price:
             print("\nYou don't have enough money to buy this property!")
+            return False
         else:
             print(f"\nDo you want to buy {self.name}?")
             print(f"It costs ${self.price}, and you have ${player.money}.")
@@ -25,8 +26,10 @@ class boardSpace:
                 player.money -= self.price
                 player.ownedProperties.append(self)
                 print(f"\n{player.name} bought {self.name} for ${self.price}!")
+                return True
             else:
                 print(f"\n{player.name} did not buy {self.name}.")
+                return False
 
 class Corner(boardSpace):
     def __init__(self,name,category):
@@ -60,7 +63,15 @@ class Property(boardSpace):
             endGame(player)
 
     def buy(self, player):
-        return super().buy(player)
+        if super().buy(player):
+            self.checkGroup(player)
+
+    def checkGroup(self, player): #yucky and messy
+        categorylist = eval(self.category)
+        for i in categorylist:
+            if self.owner != propertylist[i].owner:
+                return False
+        player.propertyGroups.append(self.category)
 
 class Utility(boardSpace):
     def __init__(self, name, category, price):
